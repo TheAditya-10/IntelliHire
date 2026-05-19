@@ -1,7 +1,7 @@
 services:
   - type: web
     name: interviewer
-    runtime: python
+    runtime: python-3.12.3
     plan: free
 
     buildCommand: |
