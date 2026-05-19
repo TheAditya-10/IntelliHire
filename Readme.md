@@ -38,7 +38,7 @@ WATCH DEMO VIDEO HERE
   - Gemini API (Can be replaced with ChatGPT API)
   - Experiments done with HuggingFace and Ollama; Gemini was preferred for better efficiency in deployment.
 - **Speech-to-Text**: Vosk
-- **Database**: MySQL (SQLAlchemy as ORM)
+- **Database**: PostgreSQL (Neon) via SQLAlchemy
 
 ---
 
@@ -63,20 +63,16 @@ WATCH DEMO VIDEO HERE
 
 4. **Set Up Environment Variables**:
    - Create a `.env` file in the root directory.
-   - Add your API keys and other configurations:
+   - Add your API keys and database URL:
      ```
-     GEMINI_API_KEY=your_gemini_api_key
+     GOOGLE_API_KEY=your_gemini_api_key
+     DATABASE_URL=postgresql://user:password@host/dbname?sslmode=require
+     SECRET_KEY=your_secret_key_here
      ```
-     
-5. **Set Up the MySQL Database**:
-   - Create a database named `Interview` in your MySQL server.
-   - Add a `config.py` file in the root directory with the following content:
 
-     ```python
-     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:Adi!1%40T@localhost/Interview'
-     SQLALCHEMY_TRACK_MODIFICATIONS = False
-     SECRET_KEY = 'your_secret_key_here'
-     ```
+5. **Set Up PostgreSQL (Neon)**:
+   - Create a database in Neon.
+   - Copy the `DATABASE_URL` and add it to your `.env` file.
 
 6. **Run the Application**:
    ```bash
