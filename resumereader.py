@@ -2,7 +2,6 @@ from langchain_community.document_loaders import PyPDFLoader
 from langchain.prompts import PromptTemplate
 from langchain_core.output_parsers import JsonOutputParser
 from langchain_google_genai import ChatGoogleGenerativeAI
-import os
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -42,7 +41,3 @@ def extract_candidate_data(pdf_path):
     chain = resume_prompt | model | jsonparser
     candidate_data = chain.invoke({"resume_text": resume[0].page_content})
     return candidate_data
-
-
-
-

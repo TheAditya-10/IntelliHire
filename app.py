@@ -1,9 +1,7 @@
 from flask import Flask, request, jsonify, render_template, session
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from flask_cors import CORS
-from flask import session
-
-import pymysql
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime, timedelta
@@ -12,14 +10,12 @@ import wave
 import vosk
 import json
 
-import config  
+import config
 from dbmodel import db, Job, Candidate, Interview
 from resumereader import extract_candidate_data
 from scheduler import get_skill_order
 from interviewer import get_first_question, get_next_question, record_answer
 from report import generate_report, score_report
-
-pymysql.install_as_MySQLdb()
 
 app = Flask(__name__)
 app.secret_key = config.SECRET_KEY
@@ -28,6 +24,7 @@ CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = config.SQLALCHEMY_DATABASE_URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = config.SQLALCHEMY_TRACK_MODIFICATIONS
 db.init_app(app)
+migrate = Migrate(app, db)
 
 # Serve job list for dropdown
 @app.route('/api/jobs', methods=['GET'])
@@ -375,8 +372,6 @@ def end_interview():
         "score": score
     })
 if __name__ == "__main__":
-    app.run(debug=True)
-    db.create_all()
-
-if __name__ == "__main__":
+    with app.app_context():
+        db.create_all()
     app.run(debug=True)
